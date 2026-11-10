@@ -1,0 +1,12 @@
+{
+  "name": "ai-frontend-agent",
+  "private": true,
+  "version": "0.1.0",
+  "description": "一句话需求，并发生成多个结构不同的前端方案（Vue 3 / React）",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs"
+  }
+}
