@@ -53,6 +53,8 @@ ai-frontend-agent/
 ├── .gitignore
 └── README.md
 ```
+## 界面展示
+<img width="1920" height="833" alt="image" src="https://github.com/user-attachments/assets/00ae52a1-2743-4c22-894a-dc070f7f7583" />
 
 ## 快速开始
 
@@ -247,27 +249,3 @@ curl -X POST http://localhost:8000/api/generate \
 **Windows 下 npm run dev 找不到 Python？** 请先按「安装依赖」创建 `backend/.venv` 并 `pip install -r requirements.txt`；脚本会优先使用该虚拟环境。
 
 **预览里的 fetch / localStorage 为什么不可用？** 这是 `sandbox="allow-scripts"` 的安全隔离行为，预览与主页面不同源。需要真实后端联调时，请直接运行生成的前端项目。
-
-## Self-check
-
-- [x] 前后端数据契约字段完全对应（`schemas.py` 与 `types.ts`）
-- [x] 并行调用使用 `asyncio.gather(return_exceptions=True)`，无同步串行调用
-- [x] 未配置 Key 时 `/api/generate` 返回 503，而非 500 或崩溃
-- [x] `entry_file` 必须属于 `files[].path`
-- [x] `/api/variants` 只返回方向元信息，不返回系统提示词
-- [x] 前端不直接调用 LLM，API Key 不写入代码、前端或日志
-- [x] 九宫格在结果不足 9 个时渲染占位卡，失败方向可单独重试
-- [x] 方案卡片与详情抽屉均支持「新标签页预览」与「下载源码」
-- [x] ZIP 由前端手动生成（CRC32 + store），未新增 npm 依赖
-- [x] 未引入数据库、用户系统、历史记录、Docker、CI、K8s 配置
-- [x] 代码与文档中没有 `// ...` 或 `# ...` 省略占位符
-
-## 验证记录
-
-- 后端 `python -m compileall -q app` 通过；`uvicorn app.main:app` 启动成功
-- 未配置 Key 时 `GET /api/health` 返回 `{"ok":true,"llm_configured":false}`；`POST /api/generate` 返回 503
-- 离线编排测试通过：slot 排序、`[framework corrected]`、结构化输出失败后的文本 JSON 回退、单 slot 失败隔离、超时降级为 `ok=false`
-- 预览变换验证通过：`@vue/compiler-sfc` 可编译清洗后的 SFC；React 多文件合并与 import/export 清洗后可解析；6 个预览 CDN 依赖均返回 200
-- `npm run build`（`vue-tsc --noEmit` strict + `vite build`）在最近一次 React 预览修复前通过；提交前请重新执行一次
-- React 预览已完成两项修复：内联 runner 的引号注入改为 `hintName` 序列化拼接，Babel 8 显式指定 `runtime: "classic"`
-- 组合启动脚本 `scripts/dev.mjs` 与根 `package.json` 为新增内容，首次使用请执行一次 `npm run dev` 冒烟验证
